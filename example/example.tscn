@@ -1,0 +1,157 @@
+[gd_scene load_steps=8 format=3 uid="uid://bct26hfs7yo1a"]
+
+[ext_resource type="Texture2D" uid="uid://pnepw8d4dl0i" path="res://example/sprite.svg" id="1_7fiu5"]
+[ext_resource type="Script" path="res://example/example.gd" id="1_n201j"]
+
+[sub_resource type="Gradient" id="Gradient_ts50p"]
+offsets = PackedFloat32Array(0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ajf48"]
+gradient = SubResource("Gradient_ts50p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2x6yu"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 250.0
+initial_velocity_max = 500.0
+gravity = Vector3(0, 98, 0)
+color_ramp = SubResource("GradientTexture1D_ajf48")
+
+[sub_resource type="Gradient" id="Gradient_323pb"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6tdqq"]
+gradient = SubResource("Gradient_323pb")
+width = 16
+height = 16
+
+[node name="Example" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n201j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Button1" type="Button" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Button 1"
+
+[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Button 2"
+
+[node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Button 3"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Signal:"
+
+[node name="SignalOption" type="OptionButton" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "Button1.pressed"
+popup/item_1/text = "Button2.pressed"
+popup/item_1/id = 1
+popup/item_2/text = "Button3.pressed"
+popup/item_2/id = 2
+popup/item_3/text = "Null signal"
+popup/item_3/id = 3
+
+[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Callable:"
+
+[node name="CallableOption" type="OptionButton" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Sprite.rotate"
+popup/item_1/text = "Particles.restart"
+popup/item_1/id = 1
+popup/item_2/text = "Invalid callable"
+popup/item_2/id = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RemoveConnection" type="Button" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Remove Connection"
+
+[node name="ConnectOneshot" type="CheckBox" parent="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Oneshot connection"
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Center" type="Control" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite" type="Sprite2D" parent="HBoxContainer/Control/Center"]
+unique_name_in_owner = true
+texture = ExtResource("1_7fiu5")
+
+[node name="Particles" type="GPUParticles2D" parent="HBoxContainer/Control/Center"]
+unique_name_in_owner = true
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_2x6yu")
+texture = SubResource("GradientTexture2D_6tdqq")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[connection signal="item_selected" from="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SignalOption" to="." method="_on_signal_option_item_selected"]
+[connection signal="item_selected" from="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CallableOption" to="." method="_on_callable_option_item_selected"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/RemoveConnection" to="." method="_on_remove_connection_pressed"]
+[connection signal="toggled" from="HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/ConnectOneshot" to="." method="_on_connect_oneshot_toggled"]
