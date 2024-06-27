@@ -1,5 +1,5 @@
 # Dynamic Connection: Remove Signal Connection Boilerplate
-This plugin adds the **DynamicConnection** class for handling connections that change during runtime.
+This plugin adds the **DynamicConnection** class for handling a signal/callable connection and modifying it during runtime.
 
 DynamicConnection represents a connection between a Signal and a Callable or the absence of one. 
 This class ensures there's at most only one connection and avoids leaving leftover connections if its state ever changes.
