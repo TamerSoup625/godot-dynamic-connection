@@ -4,7 +4,7 @@ class_name DynamicConnection
 extends RefCounted
 
 
-## Helper class for handling connections that change during runtime
+## Helper class for handling a signal/callable connection and modifying it during runtime.
 ##
 ## [DynamicConnection] represents a connection between a [Signal] and a [Callable] or the absence of one.[br]
 ## This class ensures there's at most only one connection and avoids leaving leftover connections
